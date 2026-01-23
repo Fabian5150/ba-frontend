@@ -5,7 +5,7 @@ import App from "./App";
 const system = createSystem(defaultConfig);
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-	<ChakraProvider value={system}>
+	<ChakraProvider value={system} overflow="hidden">
 		<App />
 	</ChakraProvider>
 );
