@@ -1,14 +1,24 @@
 import { useEffect, useRef } from "react";
 import { Box, Card, Center } from "@chakra-ui/react";
-import BpmnJS from "bpmn-js/lib/Modeler";
 import { layoutProcess } from 'bpmn-auto-layout';
+import BpmnModeler from "bpmn-js/lib/Modeler";
 
 const BpmnContainer = () => {
-    const containerRef = useRef(null);
+    const bpmnContainerRef = useRef(null);
+    const propertiesRef = useRef(null)
     const bpmnRef = useRef(null);
 
     useEffect(() => {
-        if (!containerRef.current) return;
+        if (!bpmnContainerRef.current) return;
+
+        const bpmn = new BpmnModeler({
+            container: bpmnContainerRef.current,
+            width: "100%",
+            height: "100%",
+            keyboard: { bindTo: document },
+        });
+
+        bpmnRef.current = bpmn;
 
         fetch("/example-model.bpmn")
             .then(res => res.text())
@@ -18,12 +28,6 @@ const BpmnContainer = () => {
             }))
             .catch((e) => console.error(e));
 
-        const bpmn = new BpmnJS({
-            container: containerRef.current,
-        });
-
-        bpmnRef.current = bpmn;
-
         return () => {
             bpmn.destroy();
             bpmnRef.current = null;
@@ -31,9 +35,7 @@ const BpmnContainer = () => {
     }, []);
 
     return (
-        <Center
-            height="90vh"
-        >
+        <Center height="90vh">
             <Card.Root
                 variant="outline"
                 borderRadius="md"
@@ -41,9 +43,12 @@ const BpmnContainer = () => {
                 width="100%"
                 m={4}
             >
-                < Box
-                    ref={containerRef}
+                {/* bpmn canvas */}
+                <Box
+                    ref={bpmnContainerRef}
                     height="100%"
+                    minWidth="800px"
+                    minHeight="600px"
                 />
             </Card.Root>
         </Center>
