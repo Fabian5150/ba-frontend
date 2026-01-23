@@ -5,8 +5,33 @@ import "bpmn-js/dist/assets/diagram-js.css";
 import "bpmn-js/dist/assets/bpmn-font/css/bpmn.css";
 import { Card, Center } from "@chakra-ui/react";
 
-function CustomPaletteProvider(palette, create, elementFactory) {
+// TODO: put this into its own file
+function CustomPaletteProvider(palette, create, elementFactory, handTool, lassoTool, globalConnect) {
     this.getPaletteEntries = () => ({
+        "hand-tool": {
+            group: "tools",
+            className: "bpmn-icon-hand-tool",
+            title: "Hand Tool",
+            action: {
+                click: () => handTool.activateHand(),
+            },
+        },
+        "lasso-tool": {
+            group: "tools",
+            className: "bpmn-icon-lasso-tool",
+            title: "Lasso Tool",
+            action: {
+                click: () => lassoTool.activateSelection(),
+            },
+        },
+        "global-connect-tool": {
+            group: "tools",
+            className: "bpmn-icon-connection-multi",
+            title: "Global Connect",
+            action: {
+                click: () => globalConnect.toggle(),
+            },
+        },
         "create.task": {
             group: "activity",
             className: "bpmn-icon-task",
@@ -41,6 +66,7 @@ function CustomPaletteProvider(palette, create, elementFactory) {
             },
         },
     });
+
     palette.registerProvider(this);
 }
 
