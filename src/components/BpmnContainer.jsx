@@ -1,6 +1,7 @@
 import { useEffect, useRef } from "react";
 import { Box, Card, Center } from "@chakra-ui/react";
 import BpmnJS from "bpmn-js/lib/Modeler";
+import { layoutProcess } from 'bpmn-auto-layout';
 
 const BpmnContainer = () => {
     const containerRef = useRef(null);
@@ -11,6 +12,7 @@ const BpmnContainer = () => {
 
         fetch("/example-model.bpmn")
             .then(res => res.text())
+            .then(xml => layoutProcess(xml))
             .then(xml => bpmn.importXML(xml).catch((e) => {
                 console.error(e);
             }))
@@ -41,6 +43,7 @@ const BpmnContainer = () => {
             >
                 < Box
                     ref={containerRef}
+                    height="100%"
                 />
             </Card.Root>
         </Center>
