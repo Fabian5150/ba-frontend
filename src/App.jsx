@@ -8,7 +8,7 @@ const App = () => {
         >
             <Heading
                 textAlign="center"
-                mt={1}
+                my={1}
             >
                 Process Enhancement Toolkit with Reinforcement Agents (PETRA)
             </Heading>
