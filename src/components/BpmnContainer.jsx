@@ -1,74 +1,13 @@
 import { useEffect, useRef } from "react";
 import BpmnJS from "bpmn-js/dist/bpmn-modeler.development.js";
-import { layoutProcess } from 'bpmn-auto-layout';
 import "bpmn-js/dist/assets/diagram-js.css";
 import "bpmn-js/dist/assets/bpmn-font/css/bpmn.css";
+import { layoutProcess } from "bpmn-auto-layout";
 import { Card, Center } from "@chakra-ui/react";
 
-// TODO: put this into its own file
-function CustomPaletteProvider(palette, create, elementFactory, handTool, lassoTool, globalConnect) {
-    this.getPaletteEntries = () => ({
-        "hand-tool": {
-            group: "tools",
-            className: "bpmn-icon-hand-tool",
-            title: "Hand Tool",
-            action: {
-                click: () => handTool.activateHand(),
-            },
-        },
-        "lasso-tool": {
-            group: "tools",
-            className: "bpmn-icon-lasso-tool",
-            title: "Lasso Tool",
-            action: {
-                click: () => lassoTool.activateSelection(),
-            },
-        },
-        "global-connect-tool": {
-            group: "tools",
-            className: "bpmn-icon-connection-multi",
-            title: "Global Connect",
-            action: {
-                click: () => globalConnect.toggle(),
-            },
-        },
-        "create.task": {
-            group: "activity",
-            className: "bpmn-icon-task",
-            title: "Task",
-            action: {
-                dragstart: (event) =>
-                    create.start(event, elementFactory.createShape({ type: "bpmn:Task" })),
-                click: (event) =>
-                    create.start(event, elementFactory.createShape({ type: "bpmn:Task" })),
-            },
-        },
-        "create.exclusive-gateway": {
-            group: "gateway",
-            className: "bpmn-icon-gateway-xor",
-            title: "Exclusive Gateway",
-            action: {
-                dragstart: (event) =>
-                    create.start(event, elementFactory.createShape({ type: "bpmn:ExclusiveGateway" })),
-                click: (event) =>
-                    create.start(event, elementFactory.createShape({ type: "bpmn:ExclusiveGateway" })),
-            },
-        },
-        "create.parallel-gateway": {
-            group: "gateway",
-            className: "bpmn-icon-gateway-parallel",
-            title: "Parallel Gateway",
-            action: {
-                dragstart: (event) =>
-                    create.start(event, elementFactory.createShape({ type: "bpmn:ParallelGateway" })),
-                click: (event) =>
-                    create.start(event, elementFactory.createShape({ type: "bpmn:ParallelGateway" })),
-            },
-        },
-    });
-
-    palette.registerProvider(this);
-}
+import CustomPaletteProvider from "./canvas-config/CustomPaletteProvider";
+import CustomContextPadProvider from "./canvas-config/CustomContextPadProvider";
+import CustomReplaceMenu from "./canvas-config/CustomReplaceMenu";
 
 const BpmnContainer = () => {
     const containerRef = useRef(null);
@@ -79,16 +18,22 @@ const BpmnContainer = () => {
             container: containerRef.current,
             additionalModules: [
                 {
+                    __init__: ["customReplaceMenu", "contextPadProvider"],
                     paletteProvider: ["type", CustomPaletteProvider],
+                    contextPadProvider: ["type", CustomContextPadProvider],
+                    customReplaceMenu: ["type", CustomReplaceMenu],
+
+                    bpmnReplace: ["value", {}],
                 },
             ],
         });
+
         modelerRef.current = bpmn;
 
         fetch("/example-model.bpmn")
-            .then((res) => res.text())
-            .then((xml) => layoutProcess(xml))
-            .then((xml) => bpmn.importXML(xml))
+            .then(res => res.text())
+            .then(xml => layoutProcess(xml))
+            .then(xml => bpmn.importXML(xml))
             .catch(console.error);
 
         return () => bpmn.destroy();
