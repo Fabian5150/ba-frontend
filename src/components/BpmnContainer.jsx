@@ -1,37 +1,29 @@
-import { useEffect, useRef } from "react";
-import { Box, Card, Center } from "@chakra-ui/react";
+import React, { useEffect, useRef } from "react";
+import BpmnJS from "bpmn-js/dist/bpmn-modeler.development.js";
 import { layoutProcess } from 'bpmn-auto-layout';
-import BpmnModeler from "bpmn-js/lib/Modeler";
+import "bpmn-js/dist/assets/diagram-js.css";
+import "bpmn-js/dist/assets/bpmn-font/css/bpmn.css";
+import { Card, Center } from "@chakra-ui/react";
 
-const BpmnContainer = () => {
-    const bpmnContainerRef = useRef(null);
-    const propertiesRef = useRef(null)
-    const bpmnRef = useRef(null);
+export default function BpmnModeler() {
+    const containerRef = useRef(null);
+    const modelerRef = useRef(null);
 
     useEffect(() => {
-        if (!bpmnContainerRef.current) return;
-
-        const bpmn = new BpmnModeler({
-            container: bpmnContainerRef.current,
+        const bpmn = new BpmnJS({
+            container: containerRef.current,
             width: "100%",
             height: "100%",
-            keyboard: { bindTo: document },
         });
-
-        bpmnRef.current = bpmn;
+        modelerRef.current = bpmn;
 
         fetch("/example-model.bpmn")
-            .then(res => res.text())
-            .then(xml => layoutProcess(xml))
-            .then(xml => bpmn.importXML(xml).catch((e) => {
-                console.error(e);
-            }))
-            .catch((e) => console.error(e));
+            .then((res) => res.text())
+            .then((xml) => layoutProcess(xml))
+            .then((xml) => bpmn.importXML(xml))
+            .catch(console.error);
 
-        return () => {
-            bpmn.destroy();
-            bpmnRef.current = null;
-        };
+        return () => bpmn.destroy();
     }, []);
 
     return (
@@ -43,16 +35,12 @@ const BpmnContainer = () => {
                 width="100%"
                 m={4}
             >
-                {/* bpmn canvas */}
-                <Box
-                    ref={bpmnContainerRef}
-                    height="100%"
-                    minWidth="800px"
-                    minHeight="600px"
+                <div
+                    ref={containerRef}
+                    style={{ width: "100%", height: "90vh" }}
                 />
             </Card.Root>
         </Center>
+
     );
 }
-
-export default BpmnContainer;
