@@ -1,19 +1,61 @@
-import React, { useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 import BpmnJS from "bpmn-js/dist/bpmn-modeler.development.js";
 import { layoutProcess } from 'bpmn-auto-layout';
 import "bpmn-js/dist/assets/diagram-js.css";
 import "bpmn-js/dist/assets/bpmn-font/css/bpmn.css";
 import { Card, Center } from "@chakra-ui/react";
 
-export default function BpmnModeler() {
+function CustomPaletteProvider(palette, create, elementFactory) {
+    this.getPaletteEntries = () => ({
+        "create.task": {
+            group: "activity",
+            className: "bpmn-icon-task",
+            title: "Task",
+            action: {
+                dragstart: (event) =>
+                    create.start(event, elementFactory.createShape({ type: "bpmn:Task" })),
+                click: (event) =>
+                    create.start(event, elementFactory.createShape({ type: "bpmn:Task" })),
+            },
+        },
+        "create.exclusive-gateway": {
+            group: "gateway",
+            className: "bpmn-icon-gateway-xor",
+            title: "Exclusive Gateway",
+            action: {
+                dragstart: (event) =>
+                    create.start(event, elementFactory.createShape({ type: "bpmn:ExclusiveGateway" })),
+                click: (event) =>
+                    create.start(event, elementFactory.createShape({ type: "bpmn:ExclusiveGateway" })),
+            },
+        },
+        "create.parallel-gateway": {
+            group: "gateway",
+            className: "bpmn-icon-gateway-parallel",
+            title: "Parallel Gateway",
+            action: {
+                dragstart: (event) =>
+                    create.start(event, elementFactory.createShape({ type: "bpmn:ParallelGateway" })),
+                click: (event) =>
+                    create.start(event, elementFactory.createShape({ type: "bpmn:ParallelGateway" })),
+            },
+        },
+    });
+    palette.registerProvider(this);
+}
+
+const BpmnContainer = () => {
     const containerRef = useRef(null);
     const modelerRef = useRef(null);
 
     useEffect(() => {
         const bpmn = new BpmnJS({
             container: containerRef.current,
-            width: "100%",
-            height: "100%",
+            additionalModules: [
+                {
+                    paletteProvider: ["type", CustomPaletteProvider],
+                },
+            ],
         });
         modelerRef.current = bpmn;
 
@@ -44,3 +86,5 @@ export default function BpmnModeler() {
 
     );
 }
+
+export default BpmnContainer
