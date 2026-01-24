@@ -52,7 +52,6 @@ const BpmnContainer = () => {
                 />
             </Card.Root>
         </Center>
-
     );
 }
 

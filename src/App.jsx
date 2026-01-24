@@ -1,5 +1,7 @@
-import { Box, Heading } from "@chakra-ui/react"
+import { Box, Heading, Flex } from "@chakra-ui/react"
+
 import BpmnContainer from "./components/BpmnContainer"
+import KpiContainer from "./components/KpiContainer"
 
 const App = () => {
     return (
@@ -12,8 +14,15 @@ const App = () => {
             >
                 Process Enhancement Toolkit with Reinforcement Agents (PETRA)
             </Heading>
-            <BpmnContainer />
-        </Box>
+            <Flex height="90vh">
+                <Box flex={4}>
+                    <BpmnContainer />
+                </Box>
+                <Box flex={1}>
+                    <KpiContainer />
+                </Box>
+            </Flex>
+        </Box >
     )
 }
 
