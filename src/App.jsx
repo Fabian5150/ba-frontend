@@ -29,7 +29,7 @@ const App = () => {
                     </Box>
                 </Flex>
             </Flex>
-        </Box >
+        </Box>
     )
 }
 

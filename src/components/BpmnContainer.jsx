@@ -7,7 +7,6 @@ import { Card, Center } from "@chakra-ui/react";
 
 import CustomPaletteProvider from "./canvas-config/CustomPaletteProvider";
 import CustomContextPadProvider from "./canvas-config/CustomContextPadProvider";
-import CustomReplaceMenu from "./canvas-config/CustomReplaceMenu";
 
 const BpmnContainer = () => {
     const containerRef = useRef(null);
@@ -18,10 +17,8 @@ const BpmnContainer = () => {
             container: containerRef.current,
             additionalModules: [
                 {
-                    __init__: ["customReplaceMenu", "contextPadProvider"],
                     paletteProvider: ["type", CustomPaletteProvider],
                     contextPadProvider: ["type", CustomContextPadProvider],
-                    customReplaceMenu: ["type", CustomReplaceMenu],
                 },
             ],
         });

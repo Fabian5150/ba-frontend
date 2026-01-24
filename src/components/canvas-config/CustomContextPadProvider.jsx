@@ -1,10 +1,8 @@
 function CustomContextPadProvider(
     contextPad,
     modeling,
-    elementFactory,
     connect,
-    create,
-    popupMenu
+    bpmnReplace
 ) {
     this.getContextPadEntries = function (element) {
         const actions = {};
@@ -29,66 +27,60 @@ function CustomContextPadProvider(
             },
         };
 
-        actions["append.task"] = {
-            group: "model",
-            className: "bpmn-icon-task",
-            title: "Append Task",
-            action: {
-                click: (event) => {
-                    const shape = elementFactory.createShape({ type: "bpmn:Task" });
-                    create.start(event, shape, element);
-                },
-            },
-        };
-
-        actions["append.gateway"] = {
-            group: "model",
-            className: "bpmn-icon-gateway-xor",
-            title: "Append Gateway",
-            action: {
-                click: (event) => {
-                    const shape = elementFactory.createShape({ type: "bpmn:ExclusiveGateway" });
-                    create.start(event, shape, element);
-                },
-            },
-        };
-
-        if (!type.endsWith("Event")) {
-            actions["append.end-event"] = {
-                group: "model",
-                className: "bpmn-icon-end-event-none",
-                title: "Append End Event",
+        // Allowed replacements for tasks
+        if (isTask) {
+            actions["replace-task"] = {
+                group: "edit",
+                className: "bpmn-icon-task",
+                title: "Replace with Normal Task",
                 action: {
-                    click: (event) => {
-                        const shape = elementFactory.createShape({ type: "bpmn:EndEvent" });
-                        create.start(event, shape, element);
-                    },
+                    click: () => bpmnReplace.replaceElement(element, { type: "bpmn:Task" }),
+                },
+            };
+
+            actions["replace-service-task"] = {
+                group: "edit",
+                className: "bpmn-icon-service-task",
+                title: "Replace with Service Task",
+                action: {
+                    click: () =>
+                        bpmnReplace.replaceElement(element, { type: "bpmn:ServiceTask" }),
                 },
             };
         }
 
-        // Reactivate, when this shit finally works
-
-        /* if (isTask || isGateway) {
-            actions["replace"] = {
+        // Allowed replacements for gateways
+        if (isGateway) {
+            actions["replace-exclusive-gateway"] = {
                 group: "edit",
-                className: "bpmn-icon-screw-wrench",
-                title: "Change Element",
+                className: "bpmn-icon-gateway-xor",
+                title: "Replace with Exclusive Gateway",
                 action: {
-                    click: (event) => {
-                        const e = event.originalEvent || event;
-                        popupMenu.open(
-                            element,
-                            "bpmn-replace",
-                            {
-                                x: e.clientX,
-                                y: e.clientY,
-                            }
-                        );
-                    },
+                    click: () =>
+                        bpmnReplace.replaceElement(element, { type: "bpmn:ExclusiveGateway" }),
                 },
             };
-        } */
+
+            actions["replace-parallel-gateway"] = {
+                group: "edit",
+                className: "bpmn-icon-gateway-parallel",
+                title: "Replace with Parallel Gateway",
+                action: {
+                    click: () =>
+                        bpmnReplace.replaceElement(element, { type: "bpmn:ParallelGateway" }),
+                },
+            };
+
+            actions["replace-inclusive-gateway"] = {
+                group: "edit",
+                className: "bpmn-icon-gateway-or",
+                title: "Replace with Inclusive Gateway",
+                action: {
+                    click: () =>
+                        bpmnReplace.replaceElement(element, { type: "bpmn:InclusiveGateway" }),
+                },
+            };
+        }
 
         actions["delete"] = {
             group: "edit",
