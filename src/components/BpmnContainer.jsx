@@ -22,8 +22,6 @@ const BpmnContainer = () => {
                     paletteProvider: ["type", CustomPaletteProvider],
                     contextPadProvider: ["type", CustomContextPadProvider],
                     customReplaceMenu: ["type", CustomReplaceMenu],
-
-                    bpmnReplace: ["value", {}],
                 },
             ],
         });

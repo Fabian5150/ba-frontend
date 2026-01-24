@@ -67,7 +67,9 @@ function CustomContextPadProvider(
             };
         }
 
-        if (isTask || isGateway) {
+        // Reactivate, when this shit finally works
+
+        /* if (isTask || isGateway) {
             actions["replace"] = {
                 group: "edit",
                 className: "bpmn-icon-screw-wrench",
@@ -86,7 +88,7 @@ function CustomContextPadProvider(
                     },
                 },
             };
-        }
+        } */
 
         actions["delete"] = {
             group: "edit",

@@ -1,5 +1,6 @@
 function CustomPaletteProvider(palette, create, elementFactory, handTool, lassoTool, globalConnect) {
     this.getPaletteEntries = () => ({
+        // allowed tools
         "hand-tool": {
             group: "tools",
             className: "bpmn-icon-hand-tool",
@@ -24,6 +25,33 @@ function CustomPaletteProvider(palette, create, elementFactory, handTool, lassoT
                 click: () => globalConnect.toggle(),
             },
         },
+
+        // allowed event types
+        "create.start-event": {
+            group: "event",
+            className: "bpmn-icon-start-event-none",
+            title: "Start Event",
+            action: {
+                dragstart: (event) =>
+                    create.start(event, elementFactory.createShape({ type: "bpmn:StartEvent" })),
+                click: (event) =>
+                    create.start(event, elementFactory.createShape({ type: "bpmn:StartEvent" })),
+            },
+        },
+
+        "create.end-event": {
+            group: "event",
+            className: "bpmn-icon-end-event-none",
+            title: "End Event",
+            action: {
+                dragstart: (event) =>
+                    create.start(event, elementFactory.createShape({ type: "bpmn:EndEvent" })),
+                click: (event) =>
+                    create.start(event, elementFactory.createShape({ type: "bpmn:EndEvent" })),
+            },
+        },
+
+        // allowed task types
         "create.task": {
             group: "activity",
             className: "bpmn-icon-task",
@@ -35,6 +63,19 @@ function CustomPaletteProvider(palette, create, elementFactory, handTool, lassoT
                     create.start(event, elementFactory.createShape({ type: "bpmn:Task" })),
             },
         },
+        "create.service-task": {
+            group: "activity",
+            className: "bpmn-icon-service-task",
+            title: "Service Task",
+            action: {
+                dragstart: (event) =>
+                    create.start(event, elementFactory.createShape({ type: "bpmn:ServiceTask" })),
+                click: (event) =>
+                    create.start(event, elementFactory.createShape({ type: "bpmn:ServiceTask" })),
+            },
+        },
+
+        // allowed gateway types
         "create.exclusive-gateway": {
             group: "gateway",
             className: "bpmn-icon-gateway-xor",
@@ -55,6 +96,17 @@ function CustomPaletteProvider(palette, create, elementFactory, handTool, lassoT
                     create.start(event, elementFactory.createShape({ type: "bpmn:ParallelGateway" })),
                 click: (event) =>
                     create.start(event, elementFactory.createShape({ type: "bpmn:ParallelGateway" })),
+            },
+        },
+        "create.inclusive-gateway": {
+            group: "gateway",
+            className: "bpmn-icon-gateway-or",
+            title: "Inclusive Gateway",
+            action: {
+                dragstart: (event) =>
+                    create.start(event, elementFactory.createShape({ type: "bpmn:InclusiveGateway" })),
+                click: (event) =>
+                    create.start(event, elementFactory.createShape({ type: "bpmn:InclusiveGateway" })),
             },
         },
     });

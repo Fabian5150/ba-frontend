@@ -1,6 +1,4 @@
 function CustomReplaceMenu(popupMenu, bpmnReplace) {
-    console.log("CustomReplaceMenu initialized");
-
     popupMenu.registerProvider("bpmn-replace", {
         priority: 2000,
         getEntries: function (element) {
