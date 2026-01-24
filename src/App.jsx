@@ -16,7 +16,7 @@ const App = () => {
             >
                 Process Enhancement Toolkit with Reinforcement Agents (PETRA)
             </Heading>
-            <Flex height="90vh">
+            <Flex height="92vh">
                 <Box flex={4} pr={2}>
                     <BpmnContainer />
                 </Box>

@@ -38,7 +38,7 @@ const BpmnContainer = () => {
     }, []);
 
     return (
-        <Center height="90vh">
+        <Center height="92vh">
             <Card.Root
                 variant="outline"
                 borderRadius="md"
