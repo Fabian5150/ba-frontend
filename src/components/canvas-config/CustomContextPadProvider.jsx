@@ -53,7 +53,7 @@ function CustomContextPadProvider(
             },
         };
 
-        if (!type.endsWith("EndEvent")) {
+        if (!type.endsWith("Event")) {
             actions["append.end-event"] = {
                 group: "model",
                 className: "bpmn-icon-end-event-none",
