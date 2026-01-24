@@ -5,7 +5,7 @@ import { BiBrain } from "react-icons/bi";
 const ButtonContainer = () => {
     return (
         <Center
-            height="100%"
+            height="200px"
             width="100%"
         >
             <Card.Root

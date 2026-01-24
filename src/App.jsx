@@ -21,10 +21,10 @@ const App = () => {
                     <BpmnContainer />
                 </Box>
                 <Flex flex={1} pl={2} direction="column">
-                    <Box pb={2}>
+                    <Box pb={2} flex={1}>
                         <KpiContainer />
                     </Box>
-                    <Box pt={2} height="100%" width="100%">
+                    <Box pt={2}>
                         <ButtonContainer />
                     </Box>
                 </Flex>

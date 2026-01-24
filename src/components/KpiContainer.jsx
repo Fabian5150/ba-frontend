@@ -3,7 +3,7 @@ import kpiPlaceholder from "../assets/kpi-placeholder-text.json"
 
 const KpiContainer = () => {
     return (
-        <Center>
+        <Center height="100%">
             <Card.Root
                 variant="outline"
                 borderRadius="md"
