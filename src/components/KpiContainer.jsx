@@ -3,26 +3,25 @@ import kpiPlaceholder from "../assets/kpi-placeholder-text.json"
 
 const KpiContainer = () => {
     return (
-        <Center
-            height="100%"
-            width="100%"
-        >
+        <Center>
             <Card.Root
                 variant="outline"
                 borderRadius="md"
-                m={4}
+                height="100%"
+                width="100%"
+                p={3}
             >
-                <Card.Header>
-                    <Heading>
-                        Current Performance
-                    </Heading>
-                </Card.Header>
-                <Card.Body>
-                    {/* Placeholder values */}
-                    <pre style={{ fontFamily: 'inherit' }}>
-                        {kpiPlaceholder.text}
-                    </pre>
-                </Card.Body>
+                {/* <Card.Header> */}
+                <Heading>
+                    Current Performance
+                </Heading>
+                {/* </Card.Header> */}
+                {/* <Card.Body> */}
+                {/* Placeholder values */}
+                <pre style={{ fontFamily: 'inherit' }}>
+                    {kpiPlaceholder.text}
+                </pre>
+                {/* </Card.Body> */}
             </Card.Root>
         </Center >
     );

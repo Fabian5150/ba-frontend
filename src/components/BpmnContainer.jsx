@@ -44,7 +44,6 @@ const BpmnContainer = () => {
                 borderRadius="md"
                 height="100%"
                 width="100%"
-                m={4}
             >
                 <div
                     ref={containerRef}
