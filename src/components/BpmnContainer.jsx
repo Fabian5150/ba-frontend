@@ -2,13 +2,12 @@ import { useEffect, useRef } from "react";
 import BpmnJS from "bpmn-js/dist/bpmn-modeler.development.js";
 import "bpmn-js/dist/assets/diagram-js.css";
 import "bpmn-js/dist/assets/bpmn-font/css/bpmn.css";
-import { layoutProcess } from "bpmn-auto-layout";
 import { Card, Center } from "@chakra-ui/react";
 
 import CustomPaletteProvider from "./canvas-config/CustomPaletteProvider";
 import CustomContextPadProvider from "./canvas-config/CustomContextPadProvider";
 
-const BpmnContainer = ({ processModell }) => {
+const BpmnContainer = ({ bpmnString }) => {
     const containerRef = useRef(null);
     const modelerRef = useRef(null);
 
@@ -25,14 +24,13 @@ const BpmnContainer = ({ processModell }) => {
 
         modelerRef.current = bpmn;
 
-        fetch("/example-model.bpmn")
-            .then(res => res.text())
-            .then(xml => layoutProcess(xml)) // TODO: Replace this piece of shit
-            .then(xml => bpmn.importXML(xml))
-            .catch(console.error);
+        if (bpmnString) {
+            // TODO: Adjust Layout
+            bpmn.importXML(bpmnString)
+        }
 
         return () => bpmn.destroy();
-    }, []);
+    }, [bpmnString]);
 
     return (
         <Center height="92vh">

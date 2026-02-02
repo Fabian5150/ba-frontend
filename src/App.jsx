@@ -44,14 +44,14 @@ const App = () => {
             </Heading>
             <Flex height="92vh">
                 <Box flex={4} pr={2}>
-                    <BpmnContainer />
+                    <BpmnContainer bpmnString={processModel} />
                 </Box>
                 <Flex flex={1} pl={2} direction="column">
                     <Box pb={2} flex={1}>
                         <KpiContainer kpis={kpis} />
                     </Box>
                     <Box pt={2}>
-                        <ButtonContainer processModel={processModel} />
+                        <ButtonContainer />
                     </Box>
                 </Flex>
             </Flex>
