@@ -1,7 +1,27 @@
-import { Center, Card, Heading } from "@chakra-ui/react"
-import kpiPlaceholder from "../assets/kpi-placeholder-text.json"
+import { Center, Card, Heading, List } from "@chakra-ui/react"
 
-const KpiContainer = () => {
+const KpiContainer = ({ kpis }) => {
+    const objToJsx = o => {
+        if (Object.keys(o).length === 0) return;
+
+        const arr = Object.entries(o);
+
+        if (typeof (arr[0][1]) === "object" && arr[0][1] !== null) {
+            return arr.map(elem => (
+                <List.Item>
+                    <List.Root ps="5">
+                        {elem[0]}
+                    </List.Root>
+                    {objToJsx(elem[1])}
+                </List.Item>
+            ))
+        } else {
+            return arr.map(elem => (
+                <List.Item>{`${elem}`}</List.Item>
+            ))
+        }
+    }
+
     return (
         <Center height="100%">
             <Card.Root
@@ -11,17 +31,12 @@ const KpiContainer = () => {
                 width="100%"
                 p={3}
             >
-                {/* <Card.Header> */}
                 <Heading>
                     Current Performance
                 </Heading>
-                {/* </Card.Header> */}
-                {/* <Card.Body> */}
-                {/* Placeholder values */}
-                <pre style={{ fontFamily: 'inherit' }}>
-                    {kpiPlaceholder.text}
-                </pre>
-                {/* </Card.Body> */}
+                <List.Root>
+                    {objToJsx(kpis)}
+                </List.Root>
             </Card.Root>
         </Center >
     );

@@ -27,7 +27,7 @@ const BpmnContainer = () => {
 
         fetch("/example-model.bpmn")
             .then(res => res.text())
-            .then(xml => layoutProcess(xml))
+            .then(xml => layoutProcess(xml)) // TODO: Replace this piece of shit
             .then(xml => bpmn.importXML(xml))
             .catch(console.error);
 
