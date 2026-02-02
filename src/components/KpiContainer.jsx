@@ -1,4 +1,4 @@
-import { Center, Card, Heading, List } from "@chakra-ui/react"
+import { Center, Card, Heading, List, Text } from "@chakra-ui/react"
 
 const KpiContainer = ({ kpis }) => {
     const objToJsx = o => {
@@ -8,16 +8,20 @@ const KpiContainer = ({ kpis }) => {
 
         if (typeof (arr[0][1]) === "object" && arr[0][1] !== null) {
             return arr.map(elem => (
-                <List.Item>
-                    <List.Root ps="5">
+                <List.Item key={elem[0]}>
+                    <Text fontWeight="bold">
                         {elem[0]}
+                    </Text>
+                    <List.Root ps={5}>
+                        {objToJsx(elem[1])}
                     </List.Root>
-                    {objToJsx(elem[1])}
                 </List.Item>
             ))
         } else {
             return arr.map(elem => (
-                <List.Item>{`${elem}`}</List.Item>
+                <List.Item>
+                    {`${elem[0]}: ${elem[1]}`}
+                </List.Item>
             ))
         }
     }
@@ -34,7 +38,7 @@ const KpiContainer = ({ kpis }) => {
                 <Heading>
                     Current Performance
                 </Heading>
-                <List.Root>
+                <List.Root pl={2}>
                     {objToJsx(kpis)}
                 </List.Root>
             </Card.Root>
