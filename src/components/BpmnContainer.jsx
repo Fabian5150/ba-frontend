@@ -8,7 +8,7 @@ import { Card, Center } from "@chakra-ui/react";
 import CustomPaletteProvider from "./canvas-config/CustomPaletteProvider";
 import CustomContextPadProvider from "./canvas-config/CustomContextPadProvider";
 
-const BpmnContainer = () => {
+const BpmnContainer = ({ processModell }) => {
     const containerRef = useRef(null);
     const modelerRef = useRef(null);
 

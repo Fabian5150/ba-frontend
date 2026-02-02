@@ -4,7 +4,7 @@ const KpiContainer = ({ kpis }) => {
     const objToJsx = o => {
         if (Object.keys(o).length === 0) return;
 
-        const arr = Object.entries(o)
+        const arr = Object.entries(o);
 
         if (typeof (arr[0][1]) === "object" && arr[0][1] !== null) {
             return arr.map(elem => (
@@ -46,4 +46,4 @@ const KpiContainer = ({ kpis }) => {
     );
 }
 
-export default KpiContainer
+export default KpiContainer;

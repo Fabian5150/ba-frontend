@@ -2,6 +2,7 @@ import { Box, Heading, Flex } from "@chakra-ui/react"
 import { useState, useEffect } from "react"
 
 import { getKpis } from "./actions/kpis"
+import { getProcessModell } from "./actions/processModel"
 
 import BpmnContainer from "./components/BpmnContainer"
 import KpiContainer from "./components/KpiContainer"
@@ -9,20 +10,25 @@ import ButtonContainer from "./components/ButtonContainer"
 
 const App = () => {
     const [kpis, setKpis] = useState({});
+    const [processModel, setProcessModell] = useState("");
 
-    // TODO: Use Memoization, especially for the bpmn string later
+    // TODO: Use Memoization
     useEffect(() => {
-        const fetchKpis = async () => {
+        const fetchAll = async () => {
             try {
-                const data = await getKpis();
+                const [kpiRes, processModellRes] = await Promise.all([
+                    getKpis(),
+                    getProcessModell()
+                ]);
 
-                setKpis(data);
+                setKpis(kpiRes);
+                setProcessModell(processModellRes);
             } catch (e) {
-                console.error("Error fetching kpis:\n", e);
-            };
+                console.log("Error fetching kpis and/or process model:\n", e)
+            }
         }
 
-        fetchKpis();
+        fetchAll();
     }, []);
 
     return (
@@ -45,7 +51,7 @@ const App = () => {
                         <KpiContainer kpis={kpis} />
                     </Box>
                     <Box pt={2}>
-                        <ButtonContainer />
+                        <ButtonContainer processModel={processModel} />
                     </Box>
                 </Flex>
             </Flex>
