@@ -4,12 +4,12 @@ const KpiContainer = ({ kpis }) => {
     const objToJsx = o => {
         if (Object.keys(o).length === 0) return;
 
-        const arr = Object.entries(o);
+        const arr = Object.entries(o)
 
         if (typeof (arr[0][1]) === "object" && arr[0][1] !== null) {
             return arr.map(elem => (
-                <List.Item key={elem[0]}>
-                    <Text fontWeight="bold">
+                <List.Item key={elem}>
+                    <Text fontWeight="semibold">
                         {elem[0]}
                     </Text>
                     <List.Root ps={5}>
@@ -19,7 +19,7 @@ const KpiContainer = ({ kpis }) => {
             ))
         } else {
             return arr.map(elem => (
-                <List.Item>
+                <List.Item key={elem}>
                     {`${elem[0]}: ${elem[1]}`}
                 </List.Item>
             ))
