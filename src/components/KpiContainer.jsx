@@ -27,7 +27,7 @@ const KpiContainer = ({ kpis }) => {
     }
 
     return (
-        <Center height="100%">
+        <Center>
             <Card.Root
                 variant="outline"
                 borderRadius="md"

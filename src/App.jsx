@@ -47,7 +47,11 @@ const App = () => {
                     <BpmnContainer bpmnString={processModel} />
                 </Box>
                 <Flex flex={1} pl={2} direction="column">
-                    <Box pb={2} flex={1}>
+                    <Box
+                        pb={2}
+                        flex={1}
+                        overflow="scroll"
+                    >
                         <KpiContainer kpis={kpis} />
                     </Box>
                     <Box pt={2}>
