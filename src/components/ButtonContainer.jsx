@@ -2,7 +2,13 @@ import { Center, Card, Button as IconButton, VStack } from "@chakra-ui/react"
 import { RiFlowChart, RiRobot2Line } from "react-icons/ri";
 import { BiBrain } from "react-icons/bi";
 
+import { setProcessModell } from "../actions/processModel";
+
 const ButtonContainer = () => {
+    const sendProcessModel = () => {
+        setProcessModell("foo")
+    }
+
     return (
         <Center
             height="200px"
@@ -23,7 +29,10 @@ const ButtonContainer = () => {
                         <BiBrain />
                         Run RL Bottleneck Enhancer
                     </IconButton>
-                    <IconButton width="100%">
+                    <IconButton
+                        onClick={sendProcessModel}
+                        width="100%"
+                    >
                         <RiRobot2Line />
                         Run Simulation
                     </IconButton>
