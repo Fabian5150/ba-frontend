@@ -7,9 +7,8 @@ import { Card, Center } from "@chakra-ui/react";
 import CustomPaletteProvider from "./canvas-config/CustomPaletteProvider";
 import CustomContextPadProvider from "./canvas-config/CustomContextPadProvider";
 
-const BpmnContainer = ({ bpmnString }) => {
+const BpmnContainer = ({ bpmnString, modelerRef }) => {
     const containerRef = useRef(null);
-    const modelerRef = useRef(null);
 
     useEffect(() => {
         const bpmn = new BpmnJS({
@@ -30,7 +29,7 @@ const BpmnContainer = ({ bpmnString }) => {
         }
 
         return () => bpmn.destroy();
-    }, [bpmnString]);
+    }, [bpmnString, modelerRef]);
 
     return (
         <Center height="92vh">
