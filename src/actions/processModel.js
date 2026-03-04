@@ -6,9 +6,9 @@ export const getProcessModell = async () => {
     return res.data;
 }
 
-export const updateProcessModell = async (bpmnString) => {
+export const updateProcessModelManual = async (bpmnString) => {
     await api.post(
-        "/process-model",
+        "/process-model-simulation",
         bpmnString,
         {
             headers: {

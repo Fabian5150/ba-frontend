@@ -2,13 +2,13 @@ import { Center, Card, Button as IconButton, VStack } from "@chakra-ui/react"
 import { RiFlowChart, RiRobot2Line } from "react-icons/ri";
 import { BiBrain } from "react-icons/bi";
 
-import { updateProcessModell } from "../actions/processModel";
+import { updateProcessModelManual } from "../actions/processModel";
 
 const ButtonContainer = ({ exportBpmn }) => {
     const sendProcessModel = async () => {
         const model = await exportBpmn()
 
-        updateProcessModell(model)
+        updateProcessModelManual(model)
     }
 
     return (
