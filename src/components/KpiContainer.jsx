@@ -1,6 +1,6 @@
-import { Center, Card, Heading, List, Text } from "@chakra-ui/react"
+import { Center, Card, Heading, List, Text, Spinner } from "@chakra-ui/react"
 
-const KpiContainer = ({ kpis }) => {
+const KpiContainer = ({ kpis, loading }) => {
     const objToJsx = o => {
         if (Object.keys(o).length === 0) return;
 
@@ -38,9 +38,13 @@ const KpiContainer = ({ kpis }) => {
                 <Heading>
                     Current Performance
                 </Heading>
-                <List.Root pl={2}>
-                    {objToJsx(kpis)}
-                </List.Root>
+                {loading
+                    ? <Center h="90vh">
+                        <Spinner size="xl" />
+                    </Center>
+                    : <List.Root pl={2}>
+                        {objToJsx(kpis)}
+                    </List.Root>}
             </Card.Root>
         </Center >
     );

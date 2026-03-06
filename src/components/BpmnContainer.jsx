@@ -2,12 +2,16 @@ import { useEffect, useRef } from "react";
 import BpmnJS from "bpmn-js/dist/bpmn-modeler.development.js";
 import "bpmn-js/dist/assets/diagram-js.css";
 import "bpmn-js/dist/assets/bpmn-font/css/bpmn.css";
-import { Card, Center } from "@chakra-ui/react";
+import { Card, Center, Spinner } from "@chakra-ui/react";
 
 import CustomPaletteProvider from "./canvas-config/CustomPaletteProvider";
 import CustomContextPadProvider from "./canvas-config/CustomContextPadProvider";
 
-const BpmnContainer = ({ bpmnString, modelerRef }) => {
+const BpmnContainer = ({
+    bpmnString,
+    modelerRef,
+    loading
+}) => {
     const containerRef = useRef(null);
 
     useEffect(() => {
@@ -29,7 +33,7 @@ const BpmnContainer = ({ bpmnString, modelerRef }) => {
         }
 
         return () => bpmn.destroy();
-    }, [bpmnString, modelerRef]);
+    }, [bpmnString, modelerRef, loading]);
 
     return (
         <Center height="92vh">
@@ -39,10 +43,15 @@ const BpmnContainer = ({ bpmnString, modelerRef }) => {
                 height="100%"
                 width="100%"
             >
-                <div
-                    ref={containerRef}
-                    style={{ width: "100%", height: "90vh" }}
-                />
+                {loading
+                    ? <Center h="90vh">
+                        <Spinner size="xl" />
+                    </Center>
+                    : <div
+                        ref={containerRef}
+                        style={{ width: "100%", height: "90vh" }}
+                    />
+                }
             </Card.Root>
         </Center>
     );

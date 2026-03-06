@@ -11,6 +11,7 @@ import ButtonContainer from "./components/ButtonContainer"
 const App = () => {
     const [kpis, setKpis] = useState({});
     const [processModel, setProcessModell] = useState("");
+    const [loading, setLoading] = useState(false);
     const bpmnModelerRef = useRef(null);
 
     // TODO: Use Memoization
@@ -28,6 +29,8 @@ const App = () => {
                 console.log("Error fetching kpis and/or process model:\n", e)
             }
         }
+
+        console.log("Loading bpmn model")
 
         fetchAll();
     }, []);
@@ -60,6 +63,7 @@ const App = () => {
                     <BpmnContainer
                         bpmnString={processModel}
                         modelerRef={bpmnModelerRef}
+                        loading={loading}
                     />
                 </Box>
                 <Flex flex={1} pl={2} direction="column">
@@ -68,11 +72,16 @@ const App = () => {
                         flex={1}
                         overflow="scroll"
                     >
-                        <KpiContainer kpis={kpis} />
+                        <KpiContainer
+                            kpis={kpis}
+                            loading={loading}
+                        />
                     </Box>
                     <Box pt={2}>
                         <ButtonContainer
                             exportBpmn={exportBpmn}
+                            setLoading={setLoading}
+                            loading={loading}
                         />
                     </Box>
                 </Flex>

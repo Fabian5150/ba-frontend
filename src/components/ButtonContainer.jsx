@@ -4,11 +4,11 @@ import { BiBrain } from "react-icons/bi";
 
 import { updateProcessModelManual } from "../actions/processModel";
 
-const ButtonContainer = ({ exportBpmn }) => {
+const ButtonContainer = ({ exportBpmn, setLoading, loading }) => {
     const sendProcessModel = async () => {
-        const model = await exportBpmn()
+        const model = await exportBpmn();
 
-        updateProcessModelManual(model)
+        updateProcessModelManual(model, setLoading);
     }
 
     return (
@@ -23,17 +23,18 @@ const ButtonContainer = ({ exportBpmn }) => {
                 width="100%"
             >
                 <VStack spacing={4} height="100%" justify="space-around" p={5}>
-                    <IconButton width="100%">
+                    <IconButton width="100%" disabled={loading}>
                         <RiFlowChart />
                         Run Heuristic Pattern Search
                     </IconButton>
-                    <IconButton width="100%">
+                    <IconButton width="100%" disabled={loading}>
                         <BiBrain />
                         Run RL Bottleneck Enhancer
                     </IconButton>
                     <IconButton
                         onClick={sendProcessModel}
                         width="100%"
+                        disabled={loading}
                     >
                         <RiRobot2Line />
                         Run Simulation
