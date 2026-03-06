@@ -15,25 +15,33 @@ const App = () => {
     const bpmnModelerRef = useRef(null);
 
     // TODO: Use Memoization
-    useEffect(() => {
-        const fetchAll = async () => {
-            try {
-                const [kpiRes, processModellRes] = await Promise.all([
-                    getKpis(),
-                    getProcessModell()
-                ]);
-
-                setKpis(kpiRes);
-                setProcessModell(processModellRes);
-            } catch (e) {
-                console.log("Error fetching kpis and/or process model:\n", e)
-            }
-        }
-
+    const fetchAll = async () => {
         console.log("Loading bpmn model")
 
+        try {
+            const [kpiRes, processModellRes] = await Promise.all([
+                getKpis(),
+                getProcessModell()
+            ]);
+
+            setKpis(kpiRes);
+            setProcessModell(processModellRes);
+        } catch (e) {
+            console.log("Error fetching kpis and/or process model:\n", e)
+        }
+    }
+
+    // Fetch on initial render
+    useEffect(() => {
         fetchAll();
     }, []);
+
+    // Fetch on new model and kpis
+    useEffect(() => {
+        if (loading) {
+            fetchAll();
+        }
+    }, [loading]);
 
     const exportBpmn = async () => {
         if (!bpmnModelerRef.current) return;
