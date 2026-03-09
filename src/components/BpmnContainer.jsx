@@ -10,7 +10,8 @@ import CustomContextPadProvider from "./canvas-config/CustomContextPadProvider";
 const BpmnContainer = ({
     bpmnString,
     modelerRef,
-    loading
+    loading,
+    optimalPath
 }) => {
     const containerRef = useRef(null);
 
@@ -28,12 +29,59 @@ const BpmnContainer = ({
         modelerRef.current = bpmn;
 
         if (bpmnString) {
-            // TODO: Adjust Layout
-            bpmn.importXML(bpmnString)
+            bpmn.importXML(bpmnString).then(() => {
+                colorEdge(
+                    bpmn,
+                    "O_CREATED",
+                    "O_SENT",
+                    "#cc0000"
+                );
+            })
         }
 
         return () => bpmn.destroy();
     }, [bpmnString, modelerRef, loading]);
+
+    const colorEdge = (modeler, sourceName, targetName, color = "#cc0000") => {
+        if (!modeler) {
+            return
+        }
+
+        const modeling = modeler.get("modeling");
+        const elementRegistry = modeler.get("elementRegistry");
+
+        const sourceElement = elementRegistry.filter(el =>
+            el.businessObject?.name === sourceName
+        )[0];
+
+        const targetElement = elementRegistry.filter(el =>
+            el.businessObject?.name === targetName
+        )[0];
+
+        if (!sourceElement) {
+            console.log(`Source element not found: ${sourceName}`);
+            return;
+        }
+
+        if (!targetElement) {
+            console.log(`Target element not found: ${targetName}`);
+            return;
+        }
+
+        const flow = sourceElement.outgoing?.find(
+            out => out.target.id === targetElement.id
+        );
+
+        if (!flow) {
+            console.log(`Edge not found: ${sourceName} to ${targetName}`);
+            return;
+        }
+
+        modeling.setColor(flow, {
+            stroke: color,
+            fill: color
+        });
+    };
 
     return (
         <Center height="92vh">

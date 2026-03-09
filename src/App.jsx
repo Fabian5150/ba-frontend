@@ -69,6 +69,7 @@ const App = () => {
                     <BpmnContainer
                         bpmnString={processModel}
                         modelerRef={bpmnModelerRef}
+                        optimalPath={optimalPath}
                         loading={loading}
                     />
                 </Box>
