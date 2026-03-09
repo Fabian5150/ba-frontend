@@ -6,24 +6,26 @@ const KpiContainer = ({ kpis, loading }) => {
 
         const arr = Object.entries(o);
 
-        if (typeof (arr[0][1]) === "object" && arr[0][1] !== null) {
-            return arr.map(elem => (
-                <List.Item key={elem}>
-                    <Text fontWeight="semibold">
-                        {elem[0]}
-                    </Text>
-                    <List.Root ps={5}>
-                        {objToJsx(elem[1])}
-                    </List.Root>
-                </List.Item>
-            ))
-        } else {
-            return arr.map(elem => (
-                <List.Item key={elem}>
-                    {`${elem[0]}: ${elem[1]}`}
-                </List.Item>
-            ))
-        }
+        return arr.map(elem => {
+            if (typeof elem[1] === "object" && elem[1] !== null) {
+                return (
+                    <List.Item key={elem[0]}>
+                        <Text fontWeight="semibold">
+                            {elem[0]}
+                        </Text>
+                        <List.Root ps={5}>
+                            {objToJsx(elem[1])}
+                        </List.Root>
+                    </List.Item>
+                );
+            } else {
+                return (
+                    <List.Item key={elem[0]}>
+                        {`${elem[0]}: ${elem[1]}`}
+                    </List.Item>
+                );
+            }
+        });
     }
 
     return (
