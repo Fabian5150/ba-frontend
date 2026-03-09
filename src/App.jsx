@@ -1,19 +1,20 @@
-import { Box, Heading, Flex } from "@chakra-ui/react"
+import { Box, Heading, Flex, IconButton } from "@chakra-ui/react"
 import { useState, useEffect, useRef } from "react"
-
+import { HiMenu } from "react-icons/hi"
 import { getKpis } from "./actions/kpis"
 import { getProcessModell } from "./actions/processModel"
 import { getOptimalPath } from "./actions/pathfinder"
-
 import BpmnContainer from "./components/BpmnContainer"
 import KpiContainer from "./components/KpiContainer"
 import ButtonContainer from "./components/ButtonContainer"
+import MenuModal from "./components/resource-modal/Modal"
 
 const App = () => {
     const [kpis, setKpis] = useState({});
     const [processModel, setProcessModell] = useState("");
     const [loading, setLoading] = useState(false);
     const [optimalPath, setOptimalPath] = useState([])
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
     const bpmnModelerRef = useRef(null);
 
     useEffect(() => {
@@ -54,16 +55,23 @@ const App = () => {
     }
 
     return (
-        <Box
-            overflow="hidden"
-            px={4}
-        >
-            <Heading
-                textAlign="center"
-                my={1}
+        <Box overflow="hidden" px={4} position="relative">
+            <IconButton
+                position="absolute"
+                top={0}
+                right={2}
+                onClick={() => { setIsMenuOpen(true); }}
+                variant="ghost"
+                aria-label="Menu"
+                zIndex={1000}
             >
+                <HiMenu size={24} />
+            </IconButton>
+
+            <Heading textAlign="center" my={1}>
                 Process Enhancement Toolkit with Reinforcement Agents (PETRA)
             </Heading>
+
             <Flex height="92vh">
                 <Box flex={4} pr={2}>
                     <BpmnContainer
@@ -74,15 +82,8 @@ const App = () => {
                     />
                 </Box>
                 <Flex flex={1} pl={2} direction="column">
-                    <Box
-                        pb={2}
-                        flex={1}
-                        overflow="scroll"
-                    >
-                        <KpiContainer
-                            kpis={kpis}
-                            loading={loading}
-                        />
+                    <Box pb={2} flex={1} overflow="scroll">
+                        <KpiContainer kpis={kpis} loading={loading} />
                     </Box>
                     <Box pt={2}>
                         <ButtonContainer
@@ -93,6 +94,11 @@ const App = () => {
                     </Box>
                 </Flex>
             </Flex>
+
+            <MenuModal
+                open={isMenuOpen}
+                onClose={() => setIsMenuOpen(false)}
+            />
         </Box>
     )
 }
