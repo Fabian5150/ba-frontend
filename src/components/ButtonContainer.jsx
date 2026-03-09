@@ -3,12 +3,19 @@ import { RiFlowChart, RiRobot2Line } from "react-icons/ri";
 import { BiBrain } from "react-icons/bi";
 
 import { updateProcessModelManual } from "../actions/processModel";
+import { runPathFinder } from "../actions/pathfinder";
 
 const ButtonContainer = ({ exportBpmn, setLoading, loading }) => {
     const sendProcessModel = async () => {
         const model = await exportBpmn();
 
         updateProcessModelManual(model, setLoading);
+    }
+
+    const sendModelPathFinder = async () => {
+        const model = await exportBpmn();
+
+        runPathFinder(model, setLoading);
     }
 
     return (
@@ -27,9 +34,13 @@ const ButtonContainer = ({ exportBpmn, setLoading, loading }) => {
                         <RiFlowChart />
                         Run Heuristic Pattern Search
                     </IconButton>
-                    <IconButton width="100%" disabled={loading}>
+                    <IconButton
+                        onClick={sendModelPathFinder}
+                        width="100%"
+                        disabled={loading}
+                    >
                         <BiBrain />
-                        Run RL Bottleneck Enhancer
+                        Run RL Bottleneck Pathfinder
                     </IconButton>
                     <IconButton
                         onClick={sendProcessModel}

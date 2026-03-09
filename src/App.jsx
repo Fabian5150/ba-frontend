@@ -3,6 +3,7 @@ import { useState, useEffect, useRef } from "react"
 
 import { getKpis } from "./actions/kpis"
 import { getProcessModell } from "./actions/processModel"
+import { getOptimalPath } from "./actions/pathfinder"
 
 import BpmnContainer from "./components/BpmnContainer"
 import KpiContainer from "./components/KpiContainer"
@@ -12,6 +13,7 @@ const App = () => {
     const [kpis, setKpis] = useState({});
     const [processModel, setProcessModell] = useState("");
     const [loading, setLoading] = useState(false);
+    const [optimalPath, setOptimalPath] = useState([])
     const bpmnModelerRef = useRef(null);
 
     useEffect(() => {
@@ -20,13 +22,15 @@ const App = () => {
             console.log("Loading bpmn model")
 
             try {
-                const [kpiRes, processModellRes] = await Promise.all([
+                const [kpiRes, processModellRes, pathRes] = await Promise.all([
                     getKpis(),
-                    getProcessModell()
+                    getProcessModell(),
+                    getOptimalPath()
                 ]);
 
                 setKpis(kpiRes);
                 setProcessModell(processModellRes);
+                setOptimalPath(pathRes)
             } catch (e) {
                 console.log("Error fetching kpis and/or process model:\n", e)
             }
