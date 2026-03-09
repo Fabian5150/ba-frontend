@@ -30,18 +30,67 @@ const BpmnContainer = ({
 
         if (bpmnString) {
             bpmn.importXML(bpmnString).then(() => {
-                colorEdge(
-                    bpmn,
-                    "O_CREATED",
-                    "O_SENT",
-                    "#cc0000"
-                );
-            })
+                if (optimalPath && optimalPath.length > 0) {
+                    colorPathSkipGateways(modelerRef.current, optimalPath, '#b415a7');
+                }
+            });
         }
 
         return () => bpmn.destroy();
-    }, [bpmnString, modelerRef, loading]);
+    }, [bpmnString, modelerRef, loading, optimalPath]);
 
+    const colorPathSkipGateways = (modeler, path, color = "#b415a7") => {
+        if (!modeler || !path || path.length < 2) {
+            return;
+        }
+
+        const modeling = modeler.get('modeling');
+        const elementRegistry = modeler.get('elementRegistry');
+
+        for (let i = 0; i < path.length - 1; i++) {
+            const fromName = path[i];
+            const toName = path[i + 1];
+
+            const fromElement = elementRegistry.filter(el =>
+                el.businessObject?.name === fromName
+            )[0];
+
+            const toElement = elementRegistry.filter(el =>
+                el.businessObject?.name === toName
+            )[0];
+
+            if (!fromElement || !toElement) {
+                continue;
+            }
+
+            colorAllFlowsRecursive(modeling, fromElement, toElement, color, new Set());
+        }
+    };
+
+    const colorAllFlowsRecursive = (modeling, current, target, color, visited) => {
+        if (current.id === target.id) {
+            return true;
+        }
+
+        if (visited.has(current.id)) {
+            return false;
+        }
+        visited.add(current.id);
+
+        const outgoing = current.outgoing || [];
+        for (const flow of outgoing) {
+            const next = flow.target;
+
+            if (colorAllFlowsRecursive(modeling, next, target, color, visited)) {
+                modeling.setColor(flow, { stroke: color, fill: color });
+                return true;
+            }
+        }
+
+        return false;
+    };
+
+    // Colors a single edge between two activties, given they exist and are direct neighbours
     const colorEdge = (modeler, sourceName, targetName, color = "#cc0000") => {
         if (!modeler) {
             return
