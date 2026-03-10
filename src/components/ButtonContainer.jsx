@@ -27,7 +27,7 @@ const ButtonContainer = ({ exportBpmn, setLoading, loading, resourceActivities }
 
     return (
         <Center
-            height="200px"
+            height="160px"
             width="100%"
         >
             <Card.Root
@@ -37,10 +37,10 @@ const ButtonContainer = ({ exportBpmn, setLoading, loading, resourceActivities }
                 width="100%"
             >
                 <VStack spacing={4} height="100%" justify="space-around" p={5}>
-                    <IconButton width="100%" disabled={loading}>
+                    {/* <IconButton width="100%" disabled={loading}>
                         <RiFlowChart />
                         Run Heuristic Pattern Search
-                    </IconButton>
+                    </IconButton> */}
                     <IconButton
                         onClick={sendModelPathFinder}
                         width="100%"
