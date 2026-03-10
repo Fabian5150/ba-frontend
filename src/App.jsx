@@ -9,12 +9,15 @@ import BpmnContainer from "./components/BpmnContainer"
 import KpiContainer from "./components/KpiContainer"
 import ButtonContainer from "./components/ButtonContainer"
 import MenuModal from "./components/resource-modal/Modal"
+import { getBottleneck } from "./actions/pathfinder"
 
 const App = () => {
     const [kpis, setKpis] = useState({});
     const [processModel, setProcessModell] = useState("");
     const [loading, setLoading] = useState(false);
+
     const [optimalPath, setOptimalPath] = useState([]);
+    const [bottleneck, setBottleneck] = useState(null)
 
     const [resourceActivities, setResourceActivities] = useState({});
     const [resources, setResources] = useState([]);
@@ -30,11 +33,12 @@ const App = () => {
             console.log("Loading bpmn model")
 
             try {
-                const [kpiRes, processModellRes, pathRes, resourceActivitiyRes] = await Promise.all([
+                const [kpiRes, processModellRes, pathRes, resourceActivitiyRes, bottleneckRes] = await Promise.all([
                     getKpis(),
                     getProcessModell(),
                     getOptimalPath(),
-                    getResourceActivityData()
+                    getResourceActivityData(),
+                    getBottleneck()
                 ]);
 
                 setKpis(kpiRes);
@@ -90,6 +94,7 @@ const App = () => {
                         bpmnString={processModel}
                         modelerRef={bpmnModelerRef}
                         optimalPath={optimalPath}
+                        bottleneck={bottleneck}
                         loading={loading}
                     />
                 </Box>

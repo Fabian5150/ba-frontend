@@ -11,7 +11,8 @@ const BpmnContainer = ({
     bpmnString,
     modelerRef,
     loading,
-    optimalPath
+    optimalPath,
+    bottleneck
 }) => {
     const containerRef = useRef(null);
 
@@ -31,7 +32,11 @@ const BpmnContainer = ({
         if (bpmnString) {
             bpmn.importXML(bpmnString).then(() => {
                 if (optimalPath && optimalPath.length > 0) {
-                    colorPathSkipGateways(modelerRef.current, optimalPath, '#b415a7');
+                    colorPathSkipGateways(modelerRef.current, optimalPath, "#b415a7");
+                }
+
+                if (bottleneck) {
+                    colorActivity(modelerRef.current, bottleneck, '#cc0000');
                 }
             });
         }
@@ -39,13 +44,29 @@ const BpmnContainer = ({
         return () => bpmn.destroy();
     }, [bpmnString, modelerRef, loading, optimalPath]);
 
+    const colorActivity = (modeler, activityName, color) => {
+        const modeling = modeler.get("modeling");
+        const elementRegistry = modeler.get("elementRegistry");
+
+        const ActivityElement = elementRegistry.filter(el =>
+            el.businessObject?.name === activityName
+        )[0];
+
+        if (ActivityElement) {
+            modeling.setColor(ActivityElement, {
+                stroke: color,
+                fill: color
+            });
+        }
+    };
+
     const colorPathSkipGateways = (modeler, path, color = "#b415a7") => {
         if (!modeler || !path || path.length < 2) {
             return;
         }
 
-        const modeling = modeler.get('modeling');
-        const elementRegistry = modeler.get('elementRegistry');
+        const modeling = modeler.get("modeling");
+        const elementRegistry = modeler.get("elementRegistry");
 
         for (let i = 0; i < path.length - 1; i++) {
             const fromName = path[i];

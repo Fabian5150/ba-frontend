@@ -18,3 +18,9 @@ export const runPathFinder = async (bpmnString) => {
         }
     )
 }
+
+export const getBottleneck = async () => {
+    const res = await api.get("/bottleneck");
+
+    return res.data.bottleneck;
+}
