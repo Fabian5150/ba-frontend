@@ -1,6 +1,6 @@
 import { Box, Flex } from "@chakra-ui/react"
 import { Checkbox } from "@chakra-ui/react"
-import { useMemo, useCallback } from "react"
+import { useCallback } from "react"
 
 const ResourceList = ({
     activities,

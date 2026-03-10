@@ -6,9 +6,7 @@ export const getProcessModell = async () => {
     return res.data;
 }
 
-export const updateProcessModelManual = async (bpmnString, setLoading) => {
-    setLoading(true);
-
+export const updateProcessModelManual = async (bpmnString) => {
     // blocking response until simulation is done
     await api.post(
         "/process-model-simulation",
@@ -19,6 +17,4 @@ export const updateProcessModelManual = async (bpmnString, setLoading) => {
             }
         }
     )
-
-    setLoading(false)
 }

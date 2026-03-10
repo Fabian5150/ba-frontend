@@ -100,6 +100,7 @@ const App = () => {
                     <Box pt={2}>
                         <ButtonContainer
                             exportBpmn={exportBpmn}
+                            resourceActivities={resourceActivities}
                             setLoading={setLoading}
                             loading={loading}
                         />

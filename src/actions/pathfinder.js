@@ -6,9 +6,7 @@ export const getOptimalPath = async () => {
     return res.data.path;
 }
 
-export const runPathFinder = async (bpmnString, setLoading) => {
-    setLoading(true);
-
+export const runPathFinder = async (bpmnString) => {
     // blocking response until pathfinder is done
     await api.post(
         "/pathfinder",
@@ -19,6 +17,4 @@ export const runPathFinder = async (bpmnString, setLoading) => {
             }
         }
     )
-
-    setLoading(false)
 }

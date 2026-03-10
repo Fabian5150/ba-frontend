@@ -3,19 +3,26 @@ import { RiFlowChart, RiRobot2Line } from "react-icons/ri";
 import { BiBrain } from "react-icons/bi";
 
 import { updateProcessModelManual } from "../actions/processModel";
+import { updateResourceActivities } from "../actions/resources";
 import { runPathFinder } from "../actions/pathfinder";
 
-const ButtonContainer = ({ exportBpmn, setLoading, loading }) => {
-    const sendProcessModel = async () => {
+const ButtonContainer = ({ exportBpmn, setLoading, loading, resourceActivities }) => {
+    const sendProcessModelAndResourceActivities = async () => {
         const model = await exportBpmn();
 
-        updateProcessModelManual(model, setLoading);
+        setLoading(true)
+        await updateResourceActivities(resourceActivities)
+        await updateProcessModelManual(model);
+        setLoading(false)
     }
 
     const sendModelPathFinder = async () => {
         const model = await exportBpmn();
 
-        runPathFinder(model, setLoading);
+        setLoading(true)
+        await updateResourceActivities(resourceActivities)
+        await runPathFinder(model);
+        setLoading(false)
     }
 
     return (
@@ -43,7 +50,7 @@ const ButtonContainer = ({ exportBpmn, setLoading, loading }) => {
                         Run RL Bottleneck Pathfinder
                     </IconButton>
                     <IconButton
-                        onClick={sendProcessModel}
+                        onClick={sendProcessModelAndResourceActivities}
                         width="100%"
                         disabled={loading}
                     >

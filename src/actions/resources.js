@@ -7,7 +7,7 @@ export const getResourceActivityData = async () => {
     return res.data;
 }
 
-export const setResourceActivities = async (resourceActivityMapping) => {
+export const updateResourceActivities = async (resourceActivityMapping) => {
     const res = await api.post("/resource-activities", resourceActivityMapping);
 
     return res.data;
