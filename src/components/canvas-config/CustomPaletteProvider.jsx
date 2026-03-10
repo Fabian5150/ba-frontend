@@ -63,7 +63,7 @@ function CustomPaletteProvider(palette, create, elementFactory, handTool, lassoT
                     create.start(event, elementFactory.createShape({ type: "bpmn:Task" })),
             },
         },
-        "create.service-task": {
+        /* "create.service-task": {
             group: "activity",
             className: "bpmn-icon-service-task",
             title: "Service Task",
@@ -73,7 +73,7 @@ function CustomPaletteProvider(palette, create, elementFactory, handTool, lassoT
                 click: (event) =>
                     create.start(event, elementFactory.createShape({ type: "bpmn:ServiceTask" })),
             },
-        },
+        }, */
 
         // allowed gateway types
         "create.exclusive-gateway": {
@@ -98,7 +98,7 @@ function CustomPaletteProvider(palette, create, elementFactory, handTool, lassoT
                     create.start(event, elementFactory.createShape({ type: "bpmn:ParallelGateway" })),
             },
         },
-        "create.inclusive-gateway": {
+        /* "create.inclusive-gateway": {
             group: "gateway",
             className: "bpmn-icon-gateway-or",
             title: "Inclusive Gateway",
@@ -108,7 +108,7 @@ function CustomPaletteProvider(palette, create, elementFactory, handTool, lassoT
                 click: (event) =>
                     create.start(event, elementFactory.createShape({ type: "bpmn:InclusiveGateway" })),
             },
-        },
+        }, */
     });
 
     palette.registerProvider(this);

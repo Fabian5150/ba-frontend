@@ -28,7 +28,7 @@ function CustomContextPadProvider(
         };
 
         // Allowed replacements for tasks
-        if (isTask) {
+        /* if (isTask) {
             actions["replace-task"] = {
                 group: "edit",
                 className: "bpmn-icon-task",
@@ -47,7 +47,7 @@ function CustomContextPadProvider(
                         bpmnReplace.replaceElement(element, { type: "bpmn:ServiceTask" }),
                 },
             };
-        }
+        } */
 
         // Allowed replacements for gateways
         if (isGateway) {
@@ -71,7 +71,7 @@ function CustomContextPadProvider(
                 },
             };
 
-            actions["replace-inclusive-gateway"] = {
+            /* actions["replace-inclusive-gateway"] = {
                 group: "edit",
                 className: "bpmn-icon-gateway-or",
                 title: "Replace with Inclusive Gateway",
@@ -79,7 +79,7 @@ function CustomContextPadProvider(
                     click: () =>
                         bpmnReplace.replaceElement(element, { type: "bpmn:InclusiveGateway" }),
                 },
-            };
+            }; */
         }
 
         actions["delete"] = {
