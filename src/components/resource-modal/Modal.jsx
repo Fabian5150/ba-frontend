@@ -4,6 +4,7 @@ import {
     DialogBackdrop,
     Box
 } from "@chakra-ui/react"
+import ActivityList from "./ActivityList";
 
 const MenuModal = ({ open, onClose }) => {
     if (!open) return null;
@@ -23,7 +24,7 @@ const MenuModal = ({ open, onClose }) => {
                 p={6}
                 borderRadius="md"
                 boxShadow="xl"
-                minW="400px"
+                minW="600px"
             >
                 <DialogCloseTrigger
                     position="absolute"
@@ -32,10 +33,10 @@ const MenuModal = ({ open, onClose }) => {
                     onClick={onClose}
                 />
                 <Box fontSize="xl" fontWeight="bold" mb={4}>
-                    Menu
+                    Adjust Resource Allocation
                 </Box>
                 <Box>
-                    <p>Menu items coming soon...</p>
+                    <ActivityList />
                 </Box>
             </Box>
         </DialogRoot>
