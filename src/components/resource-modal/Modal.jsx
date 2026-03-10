@@ -4,9 +4,16 @@ import {
     DialogBackdrop,
     Box
 } from "@chakra-ui/react"
-import ActivityList from "./ActivityList";
+import ResourceList from "./ResourceList";
 
-const MenuModal = ({ open, onClose }) => {
+const MenuModal = ({
+    open,
+    onClose,
+    resourceActivities,
+    setResourceActivities,
+    resources,
+    activities,
+}) => {
     if (!open) return null;
 
     return (
@@ -25,6 +32,10 @@ const MenuModal = ({ open, onClose }) => {
                 borderRadius="md"
                 boxShadow="xl"
                 minW="600px"
+                maxW="800px"
+                maxH="90vh"
+                display="flex"
+                flexDirection="column"
             >
                 <DialogCloseTrigger
                     position="absolute"
@@ -32,11 +43,22 @@ const MenuModal = ({ open, onClose }) => {
                     right={2}
                     onClick={onClose}
                 />
+
                 <Box fontSize="xl" fontWeight="bold" mb={4}>
                     Adjust Resource Allocation
                 </Box>
-                <Box>
-                    <ActivityList />
+
+                <Box
+                    overflowY="auto"
+                    flex="1"
+                    pr={2}
+                >
+                    <ResourceList
+                        resourceActivities={resourceActivities}
+                        setResourceActivities={setResourceActivities}
+                        resources={resources}
+                        activities={activities}
+                    />
                 </Box>
             </Box>
         </DialogRoot>

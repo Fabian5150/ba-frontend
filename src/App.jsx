@@ -4,6 +4,7 @@ import { HiMenu } from "react-icons/hi"
 import { getKpis } from "./actions/kpis"
 import { getProcessModell } from "./actions/processModel"
 import { getOptimalPath } from "./actions/pathfinder"
+import { getResourceActivityData } from "./actions/resources"
 import BpmnContainer from "./components/BpmnContainer"
 import KpiContainer from "./components/KpiContainer"
 import ButtonContainer from "./components/ButtonContainer"
@@ -13,8 +14,14 @@ const App = () => {
     const [kpis, setKpis] = useState({});
     const [processModel, setProcessModell] = useState("");
     const [loading, setLoading] = useState(false);
-    const [optimalPath, setOptimalPath] = useState([])
+    const [optimalPath, setOptimalPath] = useState([]);
+
+    const [resourceActivities, setResourceActivities] = useState({});
+    const [resources, setResources] = useState([]);
+    const [activities, setActivities] = useState([]);
+
     const [isMenuOpen, setIsMenuOpen] = useState(false);
+
     const bpmnModelerRef = useRef(null);
 
     useEffect(() => {
@@ -23,17 +30,22 @@ const App = () => {
             console.log("Loading bpmn model")
 
             try {
-                const [kpiRes, processModellRes, pathRes] = await Promise.all([
+                const [kpiRes, processModellRes, pathRes, resourceActivitiyRes] = await Promise.all([
                     getKpis(),
                     getProcessModell(),
-                    getOptimalPath()
+                    getOptimalPath(),
+                    getResourceActivityData()
                 ]);
 
                 setKpis(kpiRes);
                 setProcessModell(processModellRes);
-                setOptimalPath(pathRes)
+                setOptimalPath(pathRes);
+
+                setResourceActivities(resourceActivitiyRes.resourceActivities);
+                setResources(resourceActivitiyRes.resources);
+                setActivities(resourceActivitiyRes.activities);
             } catch (e) {
-                console.log("Error fetching kpis and/or process model:\n", e)
+                console.log("Error fetching kpis and/or process model:\n", e);
             }
         }
 
@@ -98,6 +110,10 @@ const App = () => {
             <MenuModal
                 open={isMenuOpen}
                 onClose={() => setIsMenuOpen(false)}
+                resourceActivities={resourceActivities}
+                setResourceActivities={setResourceActivities}
+                resources={resources}
+                activities={activities}
             />
         </Box>
     )
