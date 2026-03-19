@@ -12,9 +12,11 @@ const BpmnContainer = ({
     modelerRef,
     loading,
     optimalPath,
-    bottleneck
+    bottleneck,
+    activityDefaultsRef
 }) => {
     const containerRef = useRef(null);
+    const isImportingRef = useRef(false);
 
     useEffect(() => {
         const bpmn = new BpmnJS({
@@ -31,13 +33,27 @@ const BpmnContainer = ({
 
         if (bpmnString) {
             bpmn.importXML(bpmnString).then(() => {
+                isImportingRef.current = false;
+
                 if (optimalPath && optimalPath.length > 0) {
                     colorPathSkipGateways(modelerRef.current, optimalPath, "#b415a7");
                 }
-
                 if (bottleneck) {
                     colorActivity(modelerRef.current, bottleneck, '#cc0000');
                 }
+
+                const eventBus = bpmn.get("eventBus");
+                eventBus.on("shape.added", ({ element }) => {
+                    if (element.type === "bpmn:Task" && !isImportingRef.current) {
+                        const seconds = prompt(
+                            `Estimated execution time for "${element.businessObject?.name || element.id}" (in seconds)?`,
+                            "3600"
+                        );
+                        if (seconds !== null) {
+                            activityDefaultsRef.current[element.id] = parseFloat(seconds);
+                        }
+                    }
+                });
             });
         }
 

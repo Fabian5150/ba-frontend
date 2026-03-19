@@ -26,6 +26,7 @@ const App = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
 
     const bpmnModelerRef = useRef(null);
+    const activityDefaultsRef = useRef({});
 
     useEffect(() => {
         // TODO: Use Memoization
@@ -60,15 +61,13 @@ const App = () => {
 
     const exportBpmn = async () => {
         if (!bpmnModelerRef.current) return;
-
         try {
             const { xml } = await bpmnModelerRef.current.saveXML({ format: true });
-
-            return xml
+            return { xml, activityDefaults: activityDefaultsRef.current };
         } catch (e) {
-            console.error("Error getting bpmn model:", e)
+            console.error("Error getting bpmn model:", e);
         }
-    }
+    };
 
     return (
         <Box overflow="hidden" px={4} position="relative">
@@ -96,6 +95,7 @@ const App = () => {
                         optimalPath={optimalPath}
                         bottleneck={bottleneck}
                         loading={loading}
+                        activityDefaultsRef={activityDefaultsRef}
                     />
                 </Box>
                 <Flex flex={1} pl={2} direction="column">

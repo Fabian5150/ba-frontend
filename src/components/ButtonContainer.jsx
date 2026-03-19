@@ -8,20 +8,20 @@ import { runPathFinder } from "../actions/pathfinder";
 
 const ButtonContainer = ({ exportBpmn, setLoading, loading, resourceActivities }) => {
     const sendProcessModelAndResourceActivities = async () => {
-        const model = await exportBpmn();
+        const { xml: model, activityDefaults } = await exportBpmn();
 
         setLoading(true)
         await updateResourceActivities(resourceActivities)
-        await updateProcessModelManual(model);
+        await updateProcessModelManual(model, activityDefaults);
         setLoading(false)
     }
 
     const sendModelPathFinder = async () => {
-        const model = await exportBpmn();
+        const { xml: model, activityDefaults } = await exportBpmn();
 
         setLoading(true)
         await updateResourceActivities(resourceActivities)
-        await runPathFinder(model);
+        await runPathFinder(model, activityDefaults);
         setLoading(false)
     }
 
