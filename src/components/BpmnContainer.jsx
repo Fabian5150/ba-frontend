@@ -45,12 +45,12 @@ const BpmnContainer = ({
                 const eventBus = bpmn.get("eventBus");
                 eventBus.on("shape.added", ({ element }) => {
                     if (element.type === "bpmn:Task" && !isImportingRef.current) {
-                        const seconds = prompt(
-                            `Estimated execution time for "${element.businessObject?.name || element.id}" (in seconds)?`,
-                            "3600"
+                        const minutes = prompt(
+                            `Estimated execution time for new activity (in minutes)?`,
+                            "60"
                         );
-                        if (seconds !== null) {
-                            activityDefaultsRef.current[element.id] = parseFloat(seconds);
+                        if (minutes !== null) {
+                            activityDefaultsRef.current[element.id] = parseFloat(minutes) * 60;
                         }
                     }
                 });
